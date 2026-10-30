@@ -51,7 +51,7 @@
   a.btn { text-decoration: none; display: inline-flex; align-items: center; }
 
   .video { aspect-ratio: 16 / 9; border-radius: 16px; background: #000; border: 1px solid var(--line); display: grid; place-items: center; margin: 14px 0 16px; overflow: hidden; }
-  .video svg { width: 46%; }
+  .video video { width: 100%; height: 100%; display: block; background: #000; }
 
   .board { background: #000; border: 1px solid var(--line); border-radius: 16px; padding: 12px; margin: 14px 0; }
   .board svg { display: block; width: 100%; height: auto; max-height: 380px; }
@@ -125,7 +125,7 @@
   "duree_min": 25,
   "message_parent": "Aujourd’hui, {prenom} a découvert les boucles : un seul bloc « répéter » remplace plusieurs blocs identiques.",
   "activites": [
-    { "id": "intro", "type": "video", "titre": "Le robot est fatigué d’écrire", "obligatoire": true, "fichier": "videos/createurs-j02.mp4", "duree_s": 150 },
+    { "id": "intro", "type": "video", "titre": "Le robot est fatigué d’écrire", "obligatoire": true, "fichier": "videos/createurs-j02.mp4", "duree_s": 76, "sous_titres": "videos/createurs-j02.vtt" },
     { "id": "defi-guide", "type": "robot-blocs", "titre": "Le couloir du trésor",
       "consigne": "Amène le robot jusqu’au trésor en utilisant 4 blocs au maximum.",
       "indices": ["Compte combien de fois le robot doit avancer.", "Quel bloc permet de répéter une action plusieurs fois ?", "Mets le bloc « avancer » à l’intérieur du bloc « répéter » et choisis le bon nombre."],
@@ -172,9 +172,9 @@
 
   function videoScreen(a) {
     const s = el('section', 'step card');
-    s.innerHTML = `<h2>${esc(a.titre)}</h2><p class="muted">Vidéo d’introduction, ${Math.round(a.duree_s / 60 * 2) / 2} minutes environ.</p>
-      <div class="video"><svg viewBox="0 0 120 72" aria-hidden="true"><path d="M8 60 A52 52 0 0 1 112 60" fill="none" stroke="#A98BFF" stroke-width="8"/><path d="M21 60 A39 39 0 0 1 99 60" fill="none" stroke="#4FD1FF" stroke-width="8"/><path d="M34 60 A26 26 0 0 1 86 60" fill="none" stroke="#FF6FB5" stroke-width="8"/><path d="M45 60 A15 15 0 0 1 75 60 Z" fill="#FFC94A"/><rect x="0" y="66" width="120" height="4" rx="2" fill="#F5F5F7"/></svg></div>
-      <p class="muted" style="font-size:15px">Dans la démo, la vidéo est remplacée par cette image.</p><div class="row"><button class="btn btn-main" type="button">Commencer le défi</button></div>`;
+    s.innerHTML = `<h2>${esc(a.titre)}</h2><p class="muted">Vidéo d’introduction, ${String(Math.round(a.duree_s / 60 * 2) / 2).replace('.', ',')} minute${a.duree_s >= 90 ? 's' : ''} environ.</p>
+      <div class="video"><video controls playsinline preload="metadata" poster="${a.fichier.replace(/\.mp4$/, '.jpg')}" src="${a.fichier}">${a.sous_titres ? `<track kind="subtitles" srclang="fr" label="Français" src="${a.sous_titres}">` : ''}</video></div>
+      <div class="row"><button class="btn btn-main" type="button">Commencer le défi</button></div>`;
     s.querySelector('.btn-main').onclick = next;
     return s;
   }

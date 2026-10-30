@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00.500 --> 00:06.529
+Salut ! Aujourd’hui, tu vas découvrir un super pouvoir des programmeurs : les boucles.
+
+00:07.833 --> 00:16.569
+Voici notre robot. Il veut rejoindre le trésor, tout au bout du couloir. Pour l’aider, tu lui donnes des ordres avec des blocs.
+
+00:17.867 --> 00:32.028
+On pourrait écrire : avancer, avancer, avancer, avancer. Ça marche ! Mais quatre fois le même bloc, c’est long. Et si le trésor était à cent cases ? Le robot serait fatigué d’écrire !
+
+00:33.333 --> 00:44.041
+Heureusement, il existe un bloc magique : répéter. Tu glisses le bloc avancer à l’intérieur, tu choisis le nombre de fois, et le robot répète l’action tout seul.
+
+00:45.333 --> 00:53.865
+Regarde bien. Un. Deux. Trois. Quatre. Le robot est arrivé, avec un seul bloc répéter !
+
+00:55.167 --> 01:01.904
+Et le plus fort : pour aller plus loin, il suffit de changer un seul nombre. C’est ça, une boucle.
+
+01:03.200 --> 01:14.921
+À toi de jouer ! Amène le robot jusqu’au trésor du couloir, avec quatre blocs au maximum. Compte bien les cases. Et si tu bloques, le tuteur est là pour t’aider.
