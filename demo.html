@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Miraiko — démo de séance : les boucles</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root {
+    --ground: #000000; --night: #141416; --anth: #2A2A2F; --line: #3A3A40;
+    --text: #F5F5F7; --muted: #A1A1AA; --level: #FF6FB5; --sun: #FFC94A; --bad: #FF8A80;
+    --display: "Unbounded", "Trebuchet MS", sans-serif;
+    --body: "Lexend", "Segoe UI", system-ui, sans-serif;
+    color-scheme: dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ground: #000000; --text: #F5F5F7; color-scheme: dark; } }
+  :root[data-theme="dark"] { --ground: #000000; --text: #F5F5F7; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  body { margin: 0; min-height: 100vh; background-color: var(--ground); background-image: linear-gradient(180deg, #000000 0%, #141416 60%, #2A2A2F 100%); background-attachment: fixed; color: var(--text); font-family: var(--body); font-size: 18px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  button:focus-visible, a:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 20px 18px 48px; }
+  h1, h2 { font-family: var(--display); font-weight: 700; line-height: 1.15; margin: 0; }
+  h1 { font-size: clamp(30px, 6vw, 44px); }
+  h2 { font-size: clamp(22px, 4.4vw, 30px); margin-bottom: 8px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  .demo-tag { display: inline-block; font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; margin-bottom: 14px; }
+  .level { color: var(--level); font-weight: 600; font-size: 15px; }
+  .head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .head svg { width: 56px; flex: none; }
+
+  .steps { list-style: none; padding: 0; margin: 0 0 22px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .steps li { height: 6px; border-radius: 3px; background: var(--anth); }
+  .steps li.done { background: var(--level); }
+  .steps li.now { background: color-mix(in srgb, var(--level) 55%, var(--anth)); }
+
+  .card { background: var(--night); border: 1px solid var(--line); border-radius: 20px; padding: 20px; }
+  .step { display: none; }
+  .step.on { display: block; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .btn { border: 2px solid transparent; border-radius: 999px; padding: 12px 22px; font-weight: 600; font-size: 17px; min-height: 48px; }
+  .btn-main { background: var(--level); color: #000; }
+  .btn-ghost { background: transparent; border-color: var(--line); }
+  .btn:disabled { opacity: .45; cursor: default; }
+  a.btn { text-decoration: none; display: inline-flex; align-items: center; }
+
+  .video { aspect-ratio: 16 / 9; border-radius: 16px; background: #000; border: 1px solid var(--line); display: grid; place-items: center; margin: 14px 0 16px; overflow: hidden; }
+  .video svg { width: 46%; }
+
+  .board { background: #000; border: 1px solid var(--line); border-radius: 16px; padding: 12px; margin: 14px 0; }
+  .board svg { display: block; width: 100%; height: auto; max-height: 380px; }
+  .pad { fill: #26262B; stroke: #4A4A52; stroke-width: 1.5; }
+  .wall { fill: #0D0D0F; }
+  .trace { stroke: #3A3A40; stroke-width: 2.5; stroke-linecap: round; }
+  .lit { fill: none; stroke: var(--level); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+  .gem { fill: var(--sun); }
+  .bot { transition: transform .38s cubic-bezier(.45,0,.25,1); }
+  @media (prefers-reduced-motion: reduce) { .bot { transition: none; } }
+
+  .editor { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 720px) { .editor { grid-template-columns: 1fr 230px; } }
+  .prog { background: #0B0B0C; border: 1px solid var(--line); border-radius: 16px; padding: 12px; min-height: 120px; }
+  .prog-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; font-size: 15px; color: var(--muted); }
+  .count.over { color: var(--bad); }
+  .drop { border: 2px dashed var(--line); border-radius: 12px; padding: 8px 12px; font-size: 14px; color: var(--muted); text-align: left; width: 100%; background: transparent; margin-top: 6px; min-height: 40px; }
+  .drop.target { border-color: var(--level); color: var(--text); }
+  .blk { display: flex; align-items: center; gap: 8px; background: var(--level); color: #000; border-radius: 12px; padding: 8px 8px 8px 14px; margin-top: 6px; font-weight: 600; min-height: 44px; }
+  .blk.run { box-shadow: 0 0 0 4px var(--sun); }
+  .blk .x { margin-left: auto; background: rgba(0,0,0,.18); border: 0; border-radius: 8px; width: 32px; height: 32px; color: #000; font-size: 18px; line-height: 1; }
+  .loop { background: color-mix(in srgb, var(--level) 45%, #000); border-radius: 14px; padding: 8px 8px 10px 14px; margin-top: 6px; }
+  .loop.run { box-shadow: 0 0 0 4px var(--sun); }
+  .loop-head { display: flex; align-items: center; gap: 8px; font-weight: 600; min-height: 40px; }
+  .loop-body { border-left: 4px solid color-mix(in srgb, var(--level) 70%, #000); padding-left: 10px; margin-top: 4px; }
+  .stepper { display: inline-flex; align-items: center; gap: 4px; background: var(--sun); color: #000; border-radius: 999px; padding: 2px; }
+  .stepper button { width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(0,0,0,.12); color: #000; font-size: 18px; }
+  .stepper span { min-width: 26px; text-align: center; font-variant-numeric: tabular-nums; }
+  .palette { display: flex; flex-direction: column; gap: 8px; }
+  .palette .label { font-size: 15px; color: var(--muted); }
+  .pal { background: var(--level); color: #000; border: 0; border-radius: 12px; padding: 10px 14px; text-align: left; font-weight: 600; min-height: 48px; }
+  .pal.loopish { background: color-mix(in srgb, var(--level) 45%, #000); color: var(--text); }
+
+  .feedback { min-height: 28px; margin: 12px 0 0; font-weight: 600; }
+  .feedback.ok { color: var(--sun); }
+  .feedback.ko { color: var(--bad); }
+  .tutor { display: none; margin-top: 12px; background: var(--anth); border-radius: 18px 18px 18px 6px; padding: 12px 16px; max-width: 46ch; }
+  .tutor.on { display: block; }
+  .tutor .who { font-size: 13px; color: var(--muted); }
+
+  .q { margin-bottom: 18px; }
+  .q p { font-weight: 600; }
+  .choices { display: grid; gap: 8px; }
+  .choice { text-align: left; background: var(--anth); border: 2px solid transparent; border-radius: 14px; padding: 12px 14px; min-height: 48px; }
+  .choice.good { border-color: var(--sun); }
+  .choice.bad { border-color: var(--bad); }
+  .expl { display: none; margin-top: 8px; color: var(--muted); font-size: 16px; }
+  .expl.on { display: block; }
+
+  .badge { width: 120px; height: 120px; border-radius: 50%; background: var(--level); color: #000; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 34px; margin: 6px 0 18px; }
+  .parent-msg { border: 1px dashed var(--line); border-radius: 16px; padding: 14px 16px; margin: 16px 0; }
+  .note { font-size: 14px; color: var(--muted); margin-top: 26px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <svg viewBox="0 0 120 72" aria-hidden="true"><path d="M8 60 A52 52 0 0 1 112 60" fill="none" stroke="#A98BFF" stroke-width="8"/><path d="M21 60 A39 39 0 0 1 99 60" fill="none" stroke="#4FD1FF" stroke-width="8"/><path d="M34 60 A26 26 0 0 1 86 60" fill="none" stroke="#FF6FB5" stroke-width="8"/><path d="M45 60 A15 15 0 0 1 75 60 Z" fill="#FFC94A"/><rect x="0" y="66" width="120" height="4" rx="2" fill="#F5F5F7"/></svg>
+    <div><div class="level" id="lvl"></div><h1 id="title"></h1></div>
+  </div>
+  <span class="demo-tag">Démo d’une séance du niveau Créateurs, 9–11 ans</span> <a href="index.html" style="font-size:14px;color:#A1A1AA;margin-left:8px">Retour au site</a>
+  <ol class="steps" id="steps" aria-label="Progression"></ol>
+  <main id="main"></main>
+  <p class="note">Démo hors plateforme : le tuteur affiche ici les indices prévus dans la séance, et rien n’est enregistré. Dans Miraiko, il répond aux questions de l’enfant et la progression est sauvegardée.</p>
+</div>
+
+<script id="seance" type="application/json">
+{
+  "schema_version": "1.0", "id": "createurs-j02", "niveau": "createurs", "jour": 2, "titre": "Les boucles",
+  "objectif": "Faire répéter une action avec une boucle au lieu d’empiler les mêmes blocs",
+  "duree_min": 25,
+  "message_parent": "Aujourd’hui, {prenom} a découvert les boucles : un seul bloc « répéter » remplace plusieurs blocs identiques.",
+  "activites": [
+    { "id": "intro", "type": "video", "titre": "Le robot est fatigué d’écrire", "obligatoire": true, "fichier": "videos/createurs-j02.mp4", "duree_s": 150 },
+    { "id": "defi-guide", "type": "robot-blocs", "titre": "Le couloir du trésor",
+      "consigne": "Amène le robot jusqu’au trésor en utilisant 4 blocs au maximum.",
+      "indices": ["Compte combien de fois le robot doit avancer.", "Quel bloc permet de répéter une action plusieurs fois ?", "Mets le bloc « avancer » à l’intérieur du bloc « répéter » et choisis le bon nombre."],
+      "obligatoire": true, "grille": ["S.....T"], "orientation_depart": "droite",
+      "blocs": ["avancer", "tourner_gauche", "tourner_droite", "repeter"], "blocs_max": 4,
+      "reussite": { "atteindre": "T", "blocs_max": 4 } },
+    { "id": "defi-libre", "type": "robot-blocs", "titre": "L’escalier",
+      "consigne": "Le trésor est en haut de l’escalier. Trouve le programme le plus court possible.",
+      "indices": ["Regarde le chemin : quel mouvement revient à chaque marche ?", "Une marche, c’est avancer puis tourner, puis avancer puis tourner dans l’autre sens.", "Mets les quatre mouvements d’une marche dans un bloc « répéter »."],
+      "obligatoire": false, "grille": ["###.T", "##..#", "#..##", "..###", "S####"], "orientation_depart": "haut",
+      "blocs": ["avancer", "tourner_gauche", "tourner_droite", "repeter"], "reussite": { "atteindre": "T" } },
+    { "id": "quiz", "type": "quiz", "titre": "Trois questions", "obligatoire": true, "questions": [
+      { "enonce": "À quoi sert le bloc « répéter » ?", "choix": ["À faire la même action plusieurs fois", "À arrêter le robot", "À faire tourner le robot"], "bonne_reponse": 0, "explication": "Le bloc « répéter » exécute plusieurs fois les blocs placés à l’intérieur." },
+      { "enonce": "« Répéter 3 fois : avancer » fait avancer le robot de combien de cases ?", "choix": ["1", "3", "6"], "bonne_reponse": 1, "explication": "Le bloc « avancer » est exécuté 3 fois, donc le robot avance de 3 cases." },
+      { "enonce": "Pourquoi utiliser une boucle plutôt que 6 blocs « avancer » ?", "choix": ["C’est plus court et plus facile à modifier", "Le robot va plus vite", "C’est obligatoire"], "bonne_reponse": 0, "explication": "Avec une boucle, il suffit de changer un seul nombre pour modifier la distance." }
+    ] }
+  ]
+}
+</script>
+
+<script>
+(() => {
+  const S = JSON.parse(document.getElementById('seance').textContent);
+  const NIV = { explorateurs: 'Explorateurs', createurs: 'Créateurs', makers: 'Makers', builders: 'Builders' };
+  const LABELS = { avancer: 'avancer', tourner_gauche: 'tourner à gauche', tourner_droite: 'tourner à droite', repeter: 'répéter' };
+  const HEAD = { haut: -90, droite: 0, bas: 90, gauche: 180 };
+  const main = document.getElementById('main');
+  document.getElementById('lvl').textContent = NIV[S.niveau] + ', jour ' + S.jour;
+  document.getElementById('title').textContent = S.titre;
+  document.title = 'Miraiko — démo de séance : ' + S.titre.toLowerCase();
+
+  const screens = [];
+  const stepsEl = document.getElementById('steps');
+  let current = 0;
+  const go = i => {
+    current = i;
+    screens.forEach((s, k) => s.classList.toggle('on', k === i));
+    [...stepsEl.children].forEach((li, k) => { li.className = k < i ? 'done' : k === i ? 'now' : ''; });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };
+  const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const next = () => go(current + 1);
+
+  function videoScreen(a) {
+    const s = el('section', 'step card');
+    s.innerHTML = `<h2>${esc(a.titre)}</h2><p class="muted">Vidéo d’introduction, ${Math.round(a.duree_s / 60 * 2) / 2} minutes environ.</p>
+      <div class="video"><svg viewBox="0 0 120 72" aria-hidden="true"><path d="M8 60 A52 52 0 0 1 112 60" fill="none" stroke="#A98BFF" stroke-width="8"/><path d="M21 60 A39 39 0 0 1 99 60" fill="none" stroke="#4FD1FF" stroke-width="8"/><path d="M34 60 A26 26 0 0 1 86 60" fill="none" stroke="#FF6FB5" stroke-width="8"/><path d="M45 60 A15 15 0 0 1 75 60 Z" fill="#FFC94A"/><rect x="0" y="66" width="120" height="4" rx="2" fill="#F5F5F7"/></svg></div>
+      <p class="muted" style="font-size:15px">Dans la démo, la vidéo est remplacée par cette image.</p><div class="row"><button class="btn btn-main" type="button">Commencer le défi</button></div>`;
+    s.querySelector('.btn-main').onclick = next;
+    return s;
+  }
+
+  function robotScreen(a) {
+    const s = el('section', 'step card');
+    const rows = a.grille, R = rows.length, C = rows[0].length, cell = 100;
+    let start;
+    rows.forEach((row, r) => [...row].forEach((ch, c) => { if (ch === 'S') start = { r, c }; }));
+    const h0 = HEAD[a.orientation_depart];
+    const X = c => c * cell + cell / 2, Y = r => r * cell + cell / 2;
+    const open = (r, c) => r >= 0 && r < R && c >= 0 && c < C && rows[r][c] !== '#';
+    let svg = '';
+    rows.forEach((row, r) => [...row].forEach((ch, c) => {
+      if (ch === '#') { svg += `<rect class="wall" x="${c * cell + 10}" y="${r * cell + 10}" width="${cell - 20}" height="${cell - 20}" rx="12"/>`; return; }
+      if (open(r, c + 1)) svg += `<line class="trace" x1="${X(c)}" y1="${Y(r)}" x2="${X(c + 1)}" y2="${Y(r)}"/>`;
+      if (open(r + 1, c)) svg += `<line class="trace" x1="${X(c)}" y1="${Y(r)}" x2="${X(c)}" y2="${Y(r + 1)}"/>`;
+    }));
+    rows.forEach((row, r) => [...row].forEach((ch, c) => {
+      if (ch === '#') return;
+      svg += `<rect class="pad" x="${c * cell + 18}" y="${r * cell + 18}" width="${cell - 36}" height="${cell - 36}" rx="12"/>`;
+      if (ch === 'T') { const x = X(c), y = Y(r), z = 22; svg += `<polygon class="gem" points="${x},${y - z} ${x + z * .82},${y - z * .18} ${x},${y + z} ${x - z * .82},${y - z * .18}"/>`; }
+    }));
+    const b = 52, h = b / 2;
+    s.innerHTML = `<h2>${esc(a.titre)}</h2><p>${esc(a.consigne)}</p>
+      <div class="board"><svg viewBox="0 0 ${C * cell} ${R * cell}" role="img" aria-label="Grille du robot">${svg}
+        <polyline class="lit" points=""/>
+        <g class="bot"><rect x="${-h}" y="${-h}" width="${b}" height="${b}" rx="14" fill="#F5F5F7"/><circle cx="7" cy="-9" r="4" fill="#000"/><circle cx="7" cy="9" r="4" fill="#000"/><path d="M${h} -8 L${h + 10} 0 L${h} 8 Z" fill="#FF6FB5"/></g></svg></div>
+      <div class="editor">
+        <div class="prog"><div class="prog-head"><span>Ton programme</span><span class="count"></span></div><div class="tree"></div></div>
+        <div class="palette"><span class="label">Ajoute un bloc</span></div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+      <div class="tutor" aria-live="polite"><div class="who">Tuteur</div><div class="say"></div></div>
+      <div class="row" style="margin-top:14px"><button class="btn btn-main run" type="button">Lancer</button><button class="btn btn-ghost reset" type="button">Recommencer</button><button class="btn btn-ghost hint" type="button">Un indice</button><button class="btn btn-ghost skip" type="button">${a.obligatoire ? 'Continuer' : 'Passer'}</button></div>`;
+
+    const q = sel => s.querySelector(sel);
+    const bot = q('.bot'), lit = q('.lit'), tree = q('.tree'), count = q('.count'), fb = q('.feedback');
+    const pal = q('.palette'), runBtn = q('.run'), skipBtn = q('.skip');
+    const max = a.blocs_max || (a.reussite && a.reussite.blocs_max) || null;
+    let prog = [], target = prog, hintN = 0, busy = false, solved = false, uid = 0;
+    if (a.obligatoire) skipBtn.disabled = true;
+
+    const place = (r, c, hd) => { bot.style.transform = `translate(${X(c)}px, ${Y(r)}px) rotate(${hd}deg)`; };
+    const resetBot = () => { place(start.r, start.c, h0); lit.setAttribute('points', `${X(start.c)},${Y(start.r)}`); };
+    const size = list => list.reduce((n, k) => n + 1 + (k.type === 'repeter' ? size(k.body) : 0), 0);
+
+    function draw() {
+      tree.innerHTML = '';
+      const build = (list, host) => {
+        list.forEach(node => {
+          if (node.type === 'repeter') {
+            const box = el('div', 'loop'); box.dataset.id = node.id;
+            box.innerHTML = `<div class="loop-head">répéter <span class="stepper"><button type="button" aria-label="Une fois de moins">−</button><span>${node.n}</span><button type="button" aria-label="Une fois de plus">+</button></span> fois <button class="x" type="button" aria-label="Retirer la boucle" style="margin-left:auto;background:rgba(255,255,255,.12);border:0;border-radius:8px;width:32px;height:32px;color:#F5F5F7">×</button></div>`;
+            const [minus, plus] = box.querySelectorAll('.stepper button');
+            minus.onclick = () => { node.n = Math.max(1, node.n - 1); draw(); };
+            plus.onclick = () => { node.n = Math.min(10, node.n + 1); draw(); };
+            box.querySelector('.x').onclick = () => { list.splice(list.indexOf(node), 1); if (target === node.body) target = prog; draw(); };
+            const body = el('div', 'loop-body');
+            build(node.body, body);
+            const dz = el('button', 'drop' + (target === node.body ? ' target' : ''), target === node.body ? 'Les blocs s’ajoutent ici' : 'Ajouter ici');
+            dz.type = 'button'; dz.onclick = () => { target = node.body; draw(); };
+            body.appendChild(dz); box.appendChild(body); host.appendChild(box);
+          } else {
+            const blk = el('div', 'blk', `<span>${LABELS[node.type]}</span><button class="x" type="button" aria-label="Retirer ce bloc">×</button>`);
+            blk.dataset.id = node.id;
+            blk.querySelector('.x').onclick = () => { list.splice(list.indexOf(node), 1); draw(); };
+            host.appendChild(blk);
+          }
+        });
+      };
+      build(prog, tree);
+      const dz = el('button', 'drop' + (target === prog ? ' target' : ''), target === prog ? 'Les blocs s’ajoutent ici' : 'Ajouter ici, hors des boucles');
+      dz.type = 'button'; dz.onclick = () => { target = prog; draw(); };
+      tree.appendChild(dz);
+      const n = size(prog);
+      count.textContent = max ? `Blocs : ${n} sur ${max}` : `Blocs : ${n}`;
+      count.classList.toggle('over', !!max && n > max);
+    }
+
+    a.blocs.forEach(kind => {
+      const p = el('button', 'pal' + (kind === 'repeter' ? ' loopish' : ''), kind === 'repeter' ? 'répéter … fois' : LABELS[kind]);
+      p.type = 'button';
+      p.onclick = () => {
+        if (busy) return;
+        const node = { id: ++uid, type: kind };
+        if (kind === 'repeter') { node.n = 2; node.body = []; }
+        target.push(node);
+        if (kind === 'repeter') target = node.body;
+        fb.textContent = ''; fb.className = 'feedback';
+        draw();
+      };
+      pal.appendChild(p);
+    });
+
+    const flatten = (list, chain = []) => list.flatMap(node => node.type === 'repeter'
+      ? Array.from({ length: node.n }, () => flatten(node.body, chain.concat(node.id))).flat()
+      : [{ op: node.type, ids: chain.concat(node.id) }]);
+
+    function say(text, ok) { fb.textContent = text; fb.className = 'feedback ' + (ok ? 'ok' : 'ko'); }
+    function mark(ids) { tree.querySelectorAll('.run').forEach(e => e.classList.remove('run')); (ids || []).forEach(id => { const e = tree.querySelector(`[data-id="${id}"]`); if (e) e.classList.add('run'); }); }
+
+    runBtn.onclick = () => {
+      if (busy) return;
+      const steps = flatten(prog);
+      if (!steps.length) { say('Ton programme est vide : ajoute des blocs, puis lance-le.', false); return; }
+      busy = true; runBtn.disabled = true; resetBot();
+      let st = { r: start.r, c: start.c, h: h0 }, i = 0;
+      const pts = [`${X(st.c)},${Y(st.r)}`];
+      const finish = () => {
+        busy = false; runBtn.disabled = false; mark([]);
+        const n = size(prog);
+        if (rows[st.r][st.c] !== 'T') { say('Le robot s’arrête avant le trésor. Compte les cases qui manquent, puis corrige ton programme.', false); return; }
+        if (max && n > max) { say(`Le robot a trouvé le trésor, mais avec ${n} blocs. Essaie avec ${max} blocs au maximum.`, false); return; }
+        solved = true; skipBtn.disabled = false; skipBtn.textContent = 'Continuer';
+        say(`Le robot a trouvé le trésor en ${n} bloc${n > 1 ? 's' : ''}.`, true);
+      };
+      const tick = () => {
+        if (i >= steps.length) { finish(); return; }
+        const { op, ids } = steps[i++];
+        mark(ids);
+        if (op === 'avancer') {
+          const rad = st.h * Math.PI / 180, r = st.r + Math.round(Math.sin(rad)), c = st.c + Math.round(Math.cos(rad));
+          if (!open(r, c)) {
+            busy = false; runBtn.disabled = false;
+            say('Le robot a heurté un mur. Regarde où il s’arrête, puis corrige le bloc qui pose problème.', false);
+            return;
+          }
+          st = { ...st, r, c }; pts.push(`${X(c)},${Y(r)}`);
+          lit.setAttribute('points', pts.join(' '));
+        } else st = { ...st, h: st.h + (op === 'tourner_droite' ? 90 : -90) };
+        place(st.r, st.c, st.h);
+        if (steps.length > 200) { busy = false; runBtn.disabled = false; say('Ce programme est trop long pour le robot : simplifie tes boucles.', false); return; }
+        setTimeout(tick, 430);
+      };
+      setTimeout(tick, 250);
+    };
+    q('.reset').onclick = () => { if (busy) return; prog.length = 0; target = prog; resetBot(); fb.textContent = ''; draw(); };
+    q('.hint').onclick = () => {
+      const t = q('.tutor'); t.classList.add('on');
+      t.querySelector('.say').textContent = a.indices[Math.min(hintN, a.indices.length - 1)];
+      hintN++;
+      if (hintN >= a.indices.length) q('.hint').disabled = true;
+    };
+    skipBtn.onclick = next;
+    resetBot(); draw();
+    return s;
+  }
+
+  function quizScreen(a) {
+    const s = el('section', 'step card');
+    s.innerHTML = `<h2>${esc(a.titre)}</h2>`;
+    let answered = 0;
+    const cont = el('button', 'btn btn-main', 'Terminer la séance'); cont.type = 'button'; cont.disabled = true; cont.onclick = next;
+    a.questions.forEach(qq => {
+      const box = el('div', 'q', `<p>${esc(qq.enonce)}</p>`);
+      const ch = el('div', 'choices');
+      const ex = el('p', 'expl', esc(qq.explication));
+      qq.choix.forEach((txt, k) => {
+        const bt = el('button', 'choice', esc(txt)); bt.type = 'button';
+        bt.onclick = () => {
+          if (box.dataset.done) return;
+          box.dataset.done = '1';
+          bt.classList.add(k === qq.bonne_reponse ? 'good' : 'bad');
+          ch.children[qq.bonne_reponse].classList.add('good');
+          ex.classList.add('on');
+          if (++answered === a.questions.length) cont.disabled = false;
+        };
+        ch.appendChild(bt);
+      });
+      box.append(ch, ex); s.appendChild(box);
+    });
+    s.appendChild(cont);
+    return s;
+  }
+
+  function endScreen() {
+    const s = el('section', 'step card');
+    s.innerHTML = `<h2>Séance terminée</h2><div class="badge">J${S.jour}</div>
+      <p>Tu sais maintenant ${esc(S.objectif.charAt(0).toLowerCase() + S.objectif.slice(1))}.</p>
+      <div class="parent-msg"><div class="muted" style="font-size:14px">Message envoyé ce soir au parent (exemple avec le prénom Léa)</div><p style="margin:6px 0 0">${esc(S.message_parent.replace('{prenom}', 'Léa'))}</p></div>
+      <button class="btn btn-ghost" type="button">Rejouer la démo</button>`;
+    s.querySelector('button').onclick = () => location.reload();
+    return s;
+  }
+
+  S.activites.forEach(a => {
+    if (a.type === 'video') screens.push(videoScreen(a));
+    else if (a.type === 'robot-blocs') screens.push(robotScreen(a));
+    else if (a.type === 'quiz') screens.push(quizScreen(a));
+  });
+  screens.push(endScreen());
+  screens.forEach(sc => { main.appendChild(sc); stepsEl.appendChild(document.createElement('li')); });
+  go(0);
+})();
+</script>
+</body>
+</html>
