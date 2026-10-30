@@ -179,10 +179,11 @@ input::placeholder{color:#8A8A93}
 <div style="max-width: 640px; margin: 0 auto; background: #141416; border: 1px solid #3A3A40; border-radius: 24px; padding: 36px 28px; display: flex; flex-direction: column; gap: 18px">
 <h2 style="margin: 0; font-family: 'Unbounded', 'Trebuchet MS', sans-serif; font-weight: 700; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.12">Soyez prévenus du lancement</h2>
 <p style="margin: 0; color: #C9C9CF">Les familles inscrites sur la liste d’attente découvrent les dates et les prix avant tout le monde.</p>
-<!-- Liste d’attente : remplacer BREVO_ACTION_URL par l’adresse d’envoi du formulaire Brevo (voir LISEZ-MOI). -->
-<form method="POST" action="BREVO_ACTION_URL" style="display: flex; flex-direction: column; gap: 16px">
+<!-- Liste d’attente : formulaire Brevo « Liste d’attente site » (liste n° 3, double confirmation). -->
+<form method="POST" action="https://9ec40b13.sibforms.com/serve/MUIFAIKuOPejlb3VR12wWXSGxYPEKGP_89muVWSG-HEUSdRe5sVkHL9wQCvOazMbtFA5JjXYKDbuDLSMXEvwSpCW7plmk36zYUD2yR8dZmZ-SaEzoE517Q1-tAkw2HSpj5EMBakrp1EokT-Tfy_1trXQln226wMt8OMNVhaGsygQTpBvqusT4bPdPi4jNaQhKd67o4H3G0CBZGC2zQ==" style="display: flex; flex-direction: column; gap: 16px">
 <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="display: none">
 <input type="hidden" name="locale" value="fr">
+<input type="hidden" name="html_type" value="simple">
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="email" style="font-weight: 600; font-size: 16px">E-mail du parent</label>
 <input id="email" name="EMAIL" type="email" required placeholder="vous@exemple.fr" autocomplete="email" style="min-height: 52px; padding: 0 16px; border-radius: 14px; border: 1px solid #4A4A52; background: #0B0B0C; color: #F5F5F7; font: inherit">
