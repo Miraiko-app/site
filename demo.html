@@ -104,6 +104,65 @@
   .badge { width: 120px; height: 120px; border-radius: 50%; background: var(--level); color: #000; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 34px; margin: 6px 0 18px; }
   .parent-msg { border: 1px dashed var(--line); border-radius: 16px; padding: 14px 16px; margin: 16px 0; }
   .note { font-size: 14px; color: var(--muted); margin-top: 26px; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 18px; }
+  .tabs a { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid var(--line); color: var(--text); text-decoration: none; font-weight: 600; font-size: 16px; }
+  .tabs a small { color: var(--muted); font-weight: 400; font-size: 14px; }
+  .tabs a[aria-current="page"] { border-color: var(--level); background: color-mix(in srgb, var(--level) 16%, transparent); }
+  [hidden] { display: none !important; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .tutorbox { margin-top: 14px; }
+  .tutor-open { display: inline-flex; align-items: center; gap: 10px; background: var(--anth); border: 0; border-radius: 999px; padding: 12px 20px; min-height: 48px; font-weight: 600; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--level); display: inline-block; flex: none; }
+  .chat { background: #0B0B0C; border: 1px solid var(--line); border-radius: 18px; padding: 12px; }
+  .chat-head { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+  .chat-head > span:first-child { display: inline-flex; align-items: center; gap: 8px; }
+  .quota { color: var(--muted); font-weight: 400; font-size: 13px; }
+  .msgs { display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; padding: 2px; }
+  .msg { max-width: 85%; padding: 10px 14px; border-radius: 18px; font-size: 16px; line-height: 1.45; }
+  .msg.bot { background: var(--anth); border-bottom-left-radius: 6px; align-self: flex-start; }
+  .msg.me { background: var(--level); color: #000; border-bottom-right-radius: 6px; align-self: flex-end; }
+  .msg.typing { color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .chip { background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 44px; font-size: 15px; }
+  .ask { display: flex; gap: 8px; }
+  .ask input { flex: 1; min-width: 0; min-height: 48px; border-radius: 999px; border: 1px solid #4A4A52; background: #141416; color: var(--text); padding: 0 16px; font: inherit; font-size: 16px; }
+  .ask input:focus-visible, .chip:focus-visible, .tutor-open:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+
+  .ia-label { font-size: 15px; color: var(--muted); margin: 14px 0 8px; }
+  .pool { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px; }
+  .tile { background: #0B0B0C; border: 1px solid var(--line); border-radius: 14px; padding: 8px; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .tile img, .shot img, .shot canvas { width: 100%; max-width: 96px; aspect-ratio: 1; border-radius: 10px; display: block; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%; }
+  .two button { min-height: 44px; border-radius: 10px; border: 0; background: var(--anth); font-size: 14px; font-weight: 600; }
+  .bins { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .bin { border: 2px dashed var(--line); border-radius: 16px; padding: 10px; min-height: 120px; }
+  .bin-head { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; margin-bottom: 8px; }
+  .bin-head .n { font-weight: 400; color: var(--muted); font-size: 14px; }
+  .bin-head .n.ok { color: var(--sun); }
+  .bin-items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mini { position: relative; width: 56px; height: 56px; border: 0; padding: 0; background: none; border-radius: 10px; }
+  .mini img { width: 56px; height: 56px; border-radius: 10px; display: block; }
+  .mini span { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--text); color: #000; font-size: 14px; line-height: 22px; text-align: center; }
+  .train { margin-top: 14px; }
+  .bar { height: 10px; border-radius: 5px; background: var(--anth); overflow: hidden; margin: 10px 0; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--level); transition: width .9s ease; }
+  @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+  .tests { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+  .shot { background: #0B0B0C; border: 2px solid var(--line); border-radius: 12px; padding: 6px; text-align: center; font-size: 13px; opacity: .35; transition: opacity .2s; }
+  .shot.seen { opacity: 1; }
+  .shot.good { border-color: var(--sun); }
+  .shot.bad { border-color: var(--bad); }
+  .shot img { margin: 0 auto 4px; }
+  .shot b { display: block; font-size: 14px; }
+  .conf { height: 4px; border-radius: 2px; background: var(--anth); margin-top: 4px; overflow: hidden; }
+  .conf i { display: block; height: 100%; background: var(--text); }
+  .draw { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
+  @media (min-width: 640px) { .draw { grid-template-columns: 260px 1fr; } }
+  .draw canvas { width: 100%; max-width: 260px; aspect-ratio: 1; background: #141416; border: 2px solid var(--line); border-radius: 16px; touch-action: none; cursor: crosshair; display: block; }
+  .draw .col { display: flex; flex-direction: column; gap: 8px; }
+  .live { font-weight: 600; min-height: 26px; color: var(--sun); }
 </style>
 </head>
 <body>
@@ -112,13 +171,14 @@
     <svg viewBox="0 0 120 72" aria-hidden="true"><path d="M8 60 A52 52 0 0 1 112 60" fill="none" stroke="#A98BFF" stroke-width="8"/><path d="M21 60 A39 39 0 0 1 99 60" fill="none" stroke="#4FD1FF" stroke-width="8"/><path d="M34 60 A26 26 0 0 1 86 60" fill="none" stroke="#FF6FB5" stroke-width="8"/><path d="M45 60 A15 15 0 0 1 75 60 Z" fill="#FFC94A"/><rect x="0" y="66" width="120" height="4" rx="2" fill="#F5F5F7"/></svg>
     <div><div class="level" id="lvl"></div><h1 id="title"></h1></div>
   </div>
-  <span class="demo-tag">Démo d’une séance du niveau Créateurs, 9–11 ans</span> <a href="index.html" style="font-size:14px;color:#A1A1AA;margin-left:8px">Retour au site</a>
+  <span class="demo-tag">Démo de deux séances du niveau Créateurs, 9–11 ans</span> <a href="index.html" style="font-size:14px;color:#A1A1AA;margin-left:8px">Retour au site</a>
+  <nav class="tabs" aria-label="Choisir une séance"><a href="demo.html?seance=createurs-j02">Les boucles <small>jour 2</small></a><a href="demo.html?seance=createurs-j05">Entraîner une IA <small>jour 5</small></a></nav>
   <ol class="steps" id="steps" aria-label="Progression"></ol>
   <main id="main"></main>
-  <p class="note">Démo hors plateforme : le tuteur affiche ici les indices prévus dans la séance, et rien n’est enregistré. Dans Miraiko, il répond aux questions de l’enfant et la progression est sauvegardée.</p>
+  <p class="note">Démo hors plateforme, sans inscription : rien n’est enregistré. Ici, le tuteur suit des règles simples et les indices prévus dans la séance ; dans Miraiko, c’est un vrai tuteur IA, avec les mêmes garde-fous (pas de solution donnée, pas de hors-sujet, aucune donnée personnelle). L’IA de l’atelier, elle, est vraiment entraînée dans votre navigateur.</p>
 </div>
 
-<script id="seance" type="application/json">
+<script id="seance-createurs-j02" type="application/json">
 {
   "schema_version": "1.0", "id": "createurs-j02", "niveau": "createurs", "jour": 2, "titre": "Les boucles",
   "objectif": "Faire répéter une action avec une boucle au lieu d’empiler les mêmes blocs",
@@ -145,10 +205,218 @@
   ]
 }
 </script>
+<script id="seance-createurs-j05" type="application/json">
+{
+ "schema_version": "1.0",
+ "id": "createurs-j05",
+ "niveau": "createurs",
+ "jour": 5,
+ "titre": "Apprendre à une machine",
+ "objectif": "Entraîner une IA avec des exemples pour qu’elle reconnaisse les panneaux « gauche » et « droite »",
+ "duree_min": 25,
+ "message_parent": "Aujourd’hui, {prenom} a entraîné sa propre IA à reconnaître les panneaux « gauche » et « droite », simplement en lui montrant des exemples. Son robot s’en servira la semaine prochaine dans son jeu. Fin de la première semaine : bravo !",
+ "activites": [
+  {
+   "id": "defi-guide",
+   "type": "atelier-ia",
+   "titre": "Trier les panneaux",
+   "consigne": "Range au moins 5 panneaux dans chaque catégorie, « gauche » ou « droite », puis lance l’entraînement. Ton IA doit reconnaître au moins 8 panneaux de test sur 10.",
+   "indices": [
+    "L’IA apprend seulement à partir des exemples que tu lui donnes : plus ils sont variés, mieux elle apprend.",
+    "Si l’IA se trompe sur un panneau, regarde s’il ressemble à tes exemples. Ajoute des exemples qui lui ressemblent.",
+    "Vérifie qu’aucun panneau n’est rangé dans la mauvaise catégorie : une seule erreur peut embrouiller l’IA."
+   ],
+   "obligatoire": true,
+   "source_exemples": "fournis",
+   "categories": [
+    {
+     "nom": "gauche",
+     "images": [
+      "images/createurs-j05/exemple-gauche-01.png",
+      "images/createurs-j05/exemple-gauche-02.png",
+      "images/createurs-j05/exemple-gauche-03.png",
+      "images/createurs-j05/exemple-gauche-04.png",
+      "images/createurs-j05/exemple-gauche-05.png",
+      "images/createurs-j05/exemple-gauche-06.png",
+      "images/createurs-j05/exemple-gauche-07.png",
+      "images/createurs-j05/exemple-gauche-08.png",
+      "images/createurs-j05/exemple-gauche-09.png",
+      "images/createurs-j05/exemple-gauche-10.png"
+     ]
+    },
+    {
+     "nom": "droite",
+     "images": [
+      "images/createurs-j05/exemple-droite-01.png",
+      "images/createurs-j05/exemple-droite-02.png",
+      "images/createurs-j05/exemple-droite-03.png",
+      "images/createurs-j05/exemple-droite-04.png",
+      "images/createurs-j05/exemple-droite-05.png",
+      "images/createurs-j05/exemple-droite-06.png",
+      "images/createurs-j05/exemple-droite-07.png",
+      "images/createurs-j05/exemple-droite-08.png",
+      "images/createurs-j05/exemple-droite-09.png",
+      "images/createurs-j05/exemple-droite-10.png"
+     ]
+    }
+   ],
+   "exemples_min": 5,
+   "jeu_de_test": [
+    {
+     "image": "images/createurs-j05/test-gauche-01.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-02.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-03.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-04.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-05.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-01.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-02.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-03.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-04.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-05.png",
+     "categorie": "droite"
+    }
+   ],
+   "seuil_precision": 0.8
+  },
+  {
+   "id": "defi-libre",
+   "type": "atelier-ia",
+   "titre": "Mes propres panneaux",
+   "consigne": "Cette fois, c’est toi qui dessines les exemples ! Dessine au moins 5 flèches vers la gauche et 5 vers la droite, entraîne ton IA, puis vérifie qu’elle reconnaît les panneaux de test.",
+   "indices": [
+    "Dessine des flèches différentes : grandes, petites, épaisses, fines, un peu penchées.",
+    "Si l’IA confond les deux catégories, regarde tes dessins : sont-ils bien différents d’une catégorie à l’autre ?",
+    "Ajoute des dessins qui ressemblent aux panneaux que l’IA rate, puis relance l’entraînement."
+   ],
+   "obligatoire": false,
+   "source_exemples": "dessines",
+   "categories": [
+    {
+     "nom": "gauche"
+    },
+    {
+     "nom": "droite"
+    }
+   ],
+   "exemples_min": 5,
+   "jeu_de_test": [
+    {
+     "image": "images/createurs-j05/test-gauche-01.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-02.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-03.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-04.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-gauche-05.png",
+     "categorie": "gauche"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-01.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-02.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-03.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-04.png",
+     "categorie": "droite"
+    },
+    {
+     "image": "images/createurs-j05/test-droite-05.png",
+     "categorie": "droite"
+    }
+   ],
+   "seuil_precision": 0.8
+  },
+  {
+   "id": "quiz",
+   "type": "quiz",
+   "titre": "Trois questions",
+   "obligatoire": true,
+   "questions": [
+    {
+     "enonce": "Comment ton IA a-t-elle appris à reconnaître les panneaux ?",
+     "choix": [
+      "Quelqu’un lui a écrit la règle à l’avance",
+      "Grâce aux exemples que tu lui as montrés",
+      "Elle le savait déjà"
+     ],
+     "bonne_reponse": 1,
+     "explication": "L’IA a trouvé elle-même ce qui distingue les deux catégories, à partir de tes exemples."
+    },
+    {
+     "enonce": "Ton IA se trompe souvent. Que peux-tu faire ?",
+     "choix": [
+      "Lui donner plus d’exemples, et des exemples variés",
+      "Éteindre l’ordinateur",
+      "Rien, une IA ne s’améliore pas"
+     ],
+     "bonne_reponse": 0,
+     "explication": "Des exemples plus nombreux et plus variés aident l’IA à mieux reconnaître de nouveaux panneaux."
+    },
+    {
+     "enonce": "Tu n’as montré à ton IA que des flèches. Tu lui montres une photo de chat. Que va-t-elle répondre ?",
+     "choix": [
+      "« Chat »",
+      "« Gauche » ou « droite », car elle ne connaît que ces deux réponses",
+      "Elle refuse de répondre"
+     ],
+     "bonne_reponse": 1,
+     "explication": "Une IA ne connaît que ce qu’on lui a appris : elle choisira forcément entre « gauche » et « droite », même pour un chat."
+    }
+   ]
+  }
+ ]
+}
+</script>
 
 <script>
 (() => {
-  const S = JSON.parse(document.getElementById('seance').textContent);
+  const ID = new URLSearchParams(location.search).get('seance') === 'createurs-j05' ? 'createurs-j05' : 'createurs-j02';
+  const S = JSON.parse(document.getElementById('seance-' + ID).textContent);
+  document.querySelectorAll('.tabs a').forEach(t => { if (t.href.endsWith(ID)) t.setAttribute('aria-current', 'page'); });
   const NIV = { explorateurs: 'Explorateurs', createurs: 'Créateurs', makers: 'Makers', builders: 'Builders' };
   const LABELS = { avancer: 'avancer', tourner_gauche: 'tourner à gauche', tourner_droite: 'tourner à droite', repeter: 'répéter' };
   const HEAD = { haut: -90, droite: 0, bas: 90, gauche: 180 };
@@ -167,8 +435,62 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };
-  const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const nb = t => t.replace(/« /g, '«\u00a0').replace(/ ([»:!?;%])/g, '\u00a0$1');
+  const esc = s => nb(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const nbAll = root => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { const t = nb(n.nodeValue); if (t !== n.nodeValue) n.nodeValue = t; } };
   const next = () => go(current + 1);
+
+
+  // ---------- Tuteur (démo : règles simples, mêmes garde-fous que le vrai tuteur) ----------
+  const QUOTA = 12;
+  const norm = t => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’`]/g, "'");
+  function makeTutor(a, diagnose, concept) {
+    const box = el('div', 'tutorbox');
+    box.innerHTML = `<button class="tutor-open" type="button" aria-expanded="false"><span class="dot"></span>Demander de l’aide au tuteur</button>
+      <div class="chat" hidden><div class="chat-head"><span><span class="dot"></span>Ton tuteur</span><span class="quota"></span></div>
+      <div class="msgs" aria-live="polite"></div><div class="chips"></div>
+      <form class="ask"><label class="sr" for="ask-${a.id}">Ta question au tuteur</label><input id="ask-${a.id}" type="text" maxlength="200" autocomplete="off" placeholder="Écris ta question…"><button class="btn btn-main" type="submit">Envoyer</button></form></div>`;
+    const openBtn = box.querySelector('.tutor-open'), chat = box.querySelector('.chat'), msgs = box.querySelector('.msgs');
+    const input = box.querySelector('input'), quota = box.querySelector('.quota'), form = box.querySelector('form');
+    let hintN = 0, left = QUOTA, busy = false;
+    const showQuota = () => { quota.textContent = `${left} message${left > 1 ? 's' : ''} restant${left > 1 ? 's' : ''}`; };
+    const add = (who, text) => { const m = el('div', 'msg ' + who); m.textContent = nb(text); msgs.appendChild(m); msgs.scrollTop = msgs.scrollHeight; return m; };
+    const nextHint = () => {
+      if (hintN >= a.indices.length) return `Tu as déjà les ${a.indices.length} indices. Relis-les tranquillement, puis essaie par toi-même : tu vas y arriver !`;
+      return `Indice ${hintN + 1} sur ${a.indices.length} : ${a.indices[hintN++]}`;
+    };
+    function answer(raw) {
+      const t = norm(raw);
+      if (/(je m'appelle|mon nom|mon prenom|j'habite|mon adresse|mon numero|mon ecole|mon mot de passe|\d{2}[ .-]?\d{2}[ .-]?\d{2}[ .-]?\d{2}|@)/.test(t))
+        return 'Garde ton prénom, ton adresse et ton numéro pour toi : je n’en ai pas besoin pour t’aider. Revenons au défi ! Qu’est-ce qui te bloque ?';
+      if (/(solution|la reponse|donne.*(code|programme|reponse)|fais.*(pour moi|a ma place)|trich)/.test(t))
+        return 'Je ne te donnerai pas la solution : c’est toi qui vas la trouver, et tu seras fier de toi ! ' + nextHint();
+      if (/^(salut|bonjour|coucou|hello|hey|yo|bonsoir)\b/.test(t) && t.length < 25) return `Salut ! Je suis là pour t’aider sur « ${a.titre} ». Où est-ce que tu bloques ?`;
+      if (/merci/.test(t)) return 'Avec plaisir ! Continue comme ça.';
+      if (concept && concept.re.test(t)) return concept.text;
+      if (/(indice|bloque|aide|comprends pas|sais pas|comment|quoi faire|marche pas|bug|arrive pas|perdu|help|pourquoi)/.test(t)) { const d = diagnose(); if (d && d.startsWith('Bravo')) return d; return (d ? d + ' ' : '') + nextHint(); }
+      return `Je suis ton tuteur pour ce défi, alors je ne parle que de « ${a.titre} ». Si tu bloques, demande-moi un indice !`;
+    }
+    function ask(text) {
+      text = text.trim();
+      if (!text || busy) return;
+      if (left <= 0) { add('bot', 'On a beaucoup discuté sur ce défi ! Essaie maintenant par toi-même, ou demande de l’aide à un adulte.'); return; }
+      left--; showQuota(); add('me', text); busy = true;
+      const typing = add('bot typing', 'Le tuteur écrit…');
+      setTimeout(() => { typing.remove(); add('bot', answer(text)); busy = false; if (left <= 0) input.disabled = true; }, 650);
+    }
+    const chips = box.querySelector('.chips');
+    ['Je suis bloqué', concept ? concept.chip : null, 'Donne-moi la solution', 'Un indice'].filter(Boolean).forEach(label => {
+      const c = el('button', 'chip', esc(label)); c.type = 'button'; c.onclick = () => ask(label); chips.appendChild(c);
+    });
+    form.onsubmit = e => { e.preventDefault(); ask(input.value); input.value = ''; };
+    openBtn.onclick = () => {
+      openBtn.hidden = true; chat.hidden = false; openBtn.setAttribute('aria-expanded', 'true');
+      if (!msgs.children.length) add('bot', 'Salut ! Je peux t’expliquer et te donner des indices, mais pas la solution. Pose-moi ta question, ou choisis une proposition.');
+      showQuota(); input.focus({ preventScroll: true });
+    };
+    return box;
+  }
 
   function videoScreen(a) {
     const s = el('section', 'step card');
@@ -208,14 +530,14 @@
         <div class="palette"><span class="label">Ajoute un bloc</span></div>
       </div>
       <p class="feedback" aria-live="polite"></p>
-      <div class="tutor" aria-live="polite"><div class="who">Tuteur</div><div class="say"></div></div>
-      <div class="row" style="margin-top:14px"><button class="btn btn-main run" type="button">Lancer</button><button class="btn btn-ghost reset" type="button">Recommencer</button><button class="btn btn-ghost hint" type="button">Un indice</button><button class="btn btn-ghost skip" type="button">${a.obligatoire ? 'Continuer' : 'Passer'}</button></div>`;
+      <div class="row" style="margin-top:14px"><button class="btn btn-main run" type="button">Lancer</button><button class="btn btn-ghost reset" type="button">Recommencer</button><button class="btn btn-ghost skip" type="button">${a.obligatoire ? 'Continuer' : 'Passer'}</button></div>
+      <div class="tutor-slot"></div>`;
 
     const q = sel => s.querySelector(sel);
     const bot = q('.bot'), lit = q('.lit'), tree = q('.tree'), count = q('.count'), fb = q('.feedback');
     const pal = q('.palette'), runBtn = q('.run'), skipBtn = q('.skip');
     const max = a.blocs_max || (a.reussite && a.reussite.blocs_max) || null;
-    let prog = [], target = prog, hintN = 0, busy = false, solved = false, uid = 0;
+    let prog = [], target = prog, busy = false, solved = false, uid = 0;
     if (a.obligatoire) skipBtn.disabled = true;
 
     const place = (r, c, hd) => { bot.style.transform = `translate(${X(c)}px, ${Y(r)}px) rotate(${hd}deg)`; };
@@ -274,7 +596,7 @@
       ? Array.from({ length: node.n }, () => flatten(node.body, chain.concat(node.id))).flat()
       : [{ op: node.type, ids: chain.concat(node.id) }]);
 
-    function say(text, ok) { fb.textContent = text; fb.className = 'feedback ' + (ok ? 'ok' : 'ko'); }
+    function say(text, ok) { fb.textContent = nb(text); fb.className = 'feedback ' + (ok ? 'ok' : 'ko'); }
     function mark(ids) { tree.querySelectorAll('.run').forEach(e => e.classList.remove('run')); (ids || []).forEach(id => { const e = tree.querySelector(`[data-id="${id}"]`); if (e) e.classList.add('run'); }); }
 
     runBtn.onclick = () => {
@@ -287,8 +609,8 @@
       const finish = () => {
         busy = false; runBtn.disabled = false; mark([]);
         const n = size(prog);
-        if (rows[st.r][st.c] !== 'T') { say('Le robot s’arrête avant le trésor. Compte les cases qui manquent, puis corrige ton programme.', false); return; }
-        if (max && n > max) { say(`Le robot a trouvé le trésor, mais avec ${n} blocs. Essaie avec ${max} blocs au maximum.`, false); return; }
+        if (rows[st.r][st.c] !== 'T') { last = 'court'; say('Le robot s’arrête avant le trésor. Compte les cases qui manquent, puis corrige ton programme.', false); return; }
+        if (max && n > max) { last = 'trop'; say(`Le robot a trouvé le trésor, mais avec ${n} blocs. Essaie avec ${max} blocs au maximum.`, false); return; }
         solved = true; skipBtn.disabled = false; skipBtn.textContent = 'Continuer';
         say(`Le robot a trouvé le trésor en ${n} bloc${n > 1 ? 's' : ''}.`, true);
       };
@@ -299,7 +621,7 @@
         if (op === 'avancer') {
           const rad = st.h * Math.PI / 180, r = st.r + Math.round(Math.sin(rad)), c = st.c + Math.round(Math.cos(rad));
           if (!open(r, c)) {
-            busy = false; runBtn.disabled = false;
+            busy = false; runBtn.disabled = false; last = 'mur';
             say('Le robot a heurté un mur. Regarde où il s’arrête, puis corrige le bloc qui pose problème.', false);
             return;
           }
@@ -313,14 +635,202 @@
       setTimeout(tick, 250);
     };
     q('.reset').onclick = () => { if (busy) return; prog.length = 0; target = prog; resetBot(); fb.textContent = ''; draw(); };
-    q('.hint').onclick = () => {
-      const t = q('.tutor'); t.classList.add('on');
-      t.querySelector('.say').textContent = a.indices[Math.min(hintN, a.indices.length - 1)];
-      hintN++;
-      if (hintN >= a.indices.length) q('.hint').disabled = true;
+    let last = null;
+    const diag = () => {
+      const n = size(prog);
+      if (solved) return 'Bravo, tu as réussi ! Tu peux continuer, ou essayer avec encore moins de blocs.';
+      if (!n) return 'Ton programme est vide pour l’instant. Commence par ajouter un bloc, puis lance-le pour voir ce que fait le robot.';
+      if (last === 'trop') return `Le robot arrive au trésor, mais avec ${n} blocs : c’est trop. Regarde les blocs qui se répètent.`;
+      if (last === 'mur') return 'Le robot s’est cogné. Regarde dans quelle direction il est tourné avant d’avancer.';
+      if (last === 'court') return 'Le robot s’arrête avant le trésor. Compte les cases qui lui manquent.';
+      return null;
     };
+    q('.tutor-slot').appendChild(makeTutor(a, diag, { chip: 'C’est quoi une boucle ?', re: /(boucle|repeter|c'est quoi)/,
+      text: 'Une boucle, c’est le bloc « répéter » : il fait plusieurs fois les blocs placés à l’intérieur. Par exemple, « répéter 2 fois : tourner à droite » fait faire un demi-tour au robot.' }));
     skipBtn.onclick = next;
     resetBot(); draw();
+    return s;
+  }
+
+
+  // ---------- Atelier IA : apprentissage par exemples (plus proches voisins), dans le navigateur ----------
+  const G = 12;
+  function features(src) {
+    const c = document.createElement('canvas'); c.width = c.height = 64;
+    const g = c.getContext('2d', { willReadFrequently: true });
+    g.fillStyle = '#141416'; g.fillRect(0, 0, 64, 64); g.drawImage(src, 0, 0, 64, 64);
+    const d = g.getImageData(0, 0, 64, 64).data, ink = new Uint8Array(4096);
+    let x0 = 64, y0 = 64, x1 = -1, y1 = -1;
+    for (let i = 0; i < 4096; i++) {
+      if (Math.min(d[i * 4], d[i * 4 + 1], d[i * 4 + 2]) > 170) {
+        ink[i] = 1; const x = i % 64, y = i >> 6;
+        x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+      }
+    }
+    const f = new Float32Array(G * G);
+    if (x1 < 0) return f;
+    const side = Math.max(x1 - x0 + 1, y1 - y0 + 1), cx = (x0 + x1 + 1) / 2, cy = (y0 + y1 + 1) / 2;
+    for (let i = 0; i < 4096; i++) if (ink[i]) {
+      const u = Math.floor(((i % 64) + .5 - cx) / side * G + G / 2), v = Math.floor(((i >> 6) + .5 - cy) / side * G + G / 2);
+      if (u >= 0 && u < G && v >= 0 && v < G) f[v * G + u]++;
+    }
+    const b = new Float32Array(G * G);
+    for (let v = 0; v < G; v++) for (let u = 0; u < G; u++) {
+      let s = 0;
+      for (let dv = -1; dv <= 1; dv++) for (let du = -1; du <= 1; du++) {
+        const uu = u + du, vv = v + dv;
+        if (uu >= 0 && uu < G && vv >= 0 && vv < G) s += f[vv * G + uu] * (du || dv ? .5 : 1);
+      }
+      b[v * G + u] = s;
+    }
+    const n = Math.hypot(...b) || 1;
+    return b.map(x => x / n);
+  }
+  function predict(train, f) {
+    const near = train.map(t => ({ cat: t.cat, s: t.f.reduce((acc, x, i) => acc + x * f[i], 0) })).sort((p, q) => q.s - p.s).slice(0, 3);
+    const votes = {};
+    near.forEach(x => { votes[x.cat] = (votes[x.cat] || 0) + Math.max(x.s, .001); });
+    const total = Object.values(votes).reduce((p, q) => p + q, 0);
+    const [cat, w] = Object.entries(votes).sort((p, q) => q[1] - p[1])[0];
+    return { cat, conf: w / total };
+  }
+  const loadImg = src => new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = src; });
+
+  function atelierScreen(a) {
+    const s = el('section', 'step card');
+    const cats = a.categories.map(c => c.nom), min = a.exemples_min, need = Math.ceil(a.seuil_precision * a.jeu_de_test.length);
+    const drawn = a.source_exemples === 'dessines';
+    s.innerHTML = `<h2>${esc(a.titre)}</h2><p>${esc(a.consigne)}</p>
+      ${drawn ? `<div class="draw"><canvas width="440" height="440" aria-label="Zone de dessin"></canvas>
+        <div class="col">${cats.map(c => `<button class="btn btn-main add" data-cat="${c}" type="button">Ranger dans « ${c} »</button>`).join('')}
+        <button class="btn btn-ghost clear" type="button">Effacer le dessin</button><p class="live" aria-live="polite"></p></div></div>`
+        : `<p class="ia-label">Panneaux à ranger : choisis la bonne catégorie pour chacun.</p><div class="pool"></div>`}
+      <div class="bins">${cats.map(c => `<div class="bin" data-cat="${c}"><div class="bin-head">« ${c} » <span class="n"></span></div><div class="bin-items"></div></div>`).join('')}</div>
+      <div class="row" style="margin-top:14px"><button class="btn btn-main go" type="button" disabled>Entraîner mon IA</button></div>
+      <div class="train" hidden><div class="muted say-train"></div><div class="bar"><i></i></div><div class="tests"></div></div>
+      <p class="feedback" aria-live="polite"></p>
+      <div class="tutor-slot"></div>
+      <div class="row" style="margin-top:14px"><button class="btn btn-ghost skip" type="button">${a.obligatoire ? 'Continuer' : 'Passer'}</button></div>`;
+    const q = sel => s.querySelector(sel), fb = q('.feedback'), go = q('.go'), skip = q('.skip');
+    if (a.obligatoire) skip.disabled = true;
+    skip.onclick = next;
+    const ex = [];            // { id, src, f, cat, vrai }
+    let uid = 0, trained = null, score = null, solved = false;
+    const say = (t, ok) => { fb.textContent = nb(t); fb.className = 'feedback ' + (ok ? 'ok' : 'ko'); };
+    const counts = () => cats.map(c => ex.filter(e => e.cat === c).length);
+
+    function changed() {
+      if (trained) { trained = null; score = null; q('.train').hidden = true; if (!solved) say('Tes exemples ont changé : relance l’entraînement pour mettre ton IA à jour.', false); }
+      draw();
+    }
+    function draw() {
+      const n = counts();
+      s.querySelectorAll('.bin').forEach((b, k) => {
+        const items = b.querySelector('.bin-items'); items.innerHTML = '';
+        ex.filter(e => e.cat === cats[k]).forEach(e => {
+          const m = el('button', 'mini', `<img src="${e.src}" alt=""><span aria-hidden="true">×</span>`); m.type = 'button';
+          m.setAttribute('aria-label', drawn ? 'Retirer ce dessin' : 'Remettre ce panneau dans la réserve');
+          m.onclick = () => { if (drawn) ex.splice(ex.indexOf(e), 1); else { e.cat = null; } changed(); };
+          items.appendChild(m);
+        });
+        const lab = b.querySelector('.n'); lab.textContent = `${n[k]} (${min} minimum)`; lab.classList.toggle('ok', n[k] >= min);
+      });
+      if (!drawn) {
+        const pool = q('.pool'); pool.innerHTML = '';
+        ex.filter(e => !e.cat).forEach(e => {
+          const t = el('div', 'tile', `<img src="${e.src}" alt="Panneau à ranger"><div class="two">${cats.map(c => `<button type="button" data-cat="${c}">${c}</button>`).join('')}</div>`);
+          t.querySelectorAll('button').forEach(bt => bt.onclick = () => { e.cat = bt.dataset.cat; changed(); });
+          pool.appendChild(t);
+        });
+        if (!pool.children.length) pool.innerHTML = '<p class="muted" style="grid-column:1/-1;margin:0">Tous les panneaux sont rangés.</p>';
+      }
+      go.disabled = n.some(k => k < min);
+    }
+
+    async function train() {
+      const n = counts();
+      if (n.some(k => k < min)) return;
+      go.disabled = true; fb.textContent = '';
+      const zone = q('.train'), bar = q('.bar i'), tests = q('.tests');
+      zone.hidden = false; bar.style.width = '0';
+      q('.say-train').textContent = `Ton IA étudie tes ${ex.filter(e => e.cat).length} exemples…`;
+      tests.innerHTML = '';
+      requestAnimationFrame(() => { bar.style.width = '100%'; });
+      trained = ex.filter(e => e.cat).map(e => ({ cat: e.cat, f: e.f }));
+      const shots = TESTS.map(t => {
+        const d = el('div', 'shot', `<img src="${t.src}" alt="Panneau de test"><b>?</b><div class="conf"><i style="width:0"></i></div>`);
+        tests.appendChild(d); return d;
+      });
+      await new Promise(r => setTimeout(r, 1000));
+      q('.say-train').textContent = 'Entraînement terminé. Ton IA passe le test sur 10 panneaux qu’elle n’a jamais vus :';
+      let good = 0;
+      for (let i = 0; i < TESTS.length; i++) {
+        const p = predict(trained, TESTS[i].f), ok = p.cat === TESTS[i].cat;
+        if (ok) good++;
+        const d = shots[i];
+        d.classList.add('seen', ok ? 'good' : 'bad');
+        d.querySelector('b').textContent = `${p.cat} ${ok ? '✓' : '✗'}`;
+        d.querySelector('.conf i').style.width = Math.round(p.conf * 100) + '%';
+        d.title = `Sûre à ${Math.round(p.conf * 100)} %`;
+        await new Promise(r => setTimeout(r, 220));
+      }
+      score = good;
+      if (good >= need) {
+        solved = true; skip.disabled = false; skip.textContent = 'Continuer';
+        say(`Ton IA a reconnu ${good} panneaux sur ${TESTS.length} : objectif atteint !${drawn ? ' Dessine une flèche pour la tester en direct.' : ''}`, true);
+      } else {
+        say(`Ton IA a reconnu ${good} panneaux sur ${TESTS.length}, il en faut au moins ${need}. Ajoute des exemples variés ou vérifie tes catégories, puis relance l’entraînement.`, false);
+      }
+      go.disabled = false; go.textContent = 'Relancer l’entraînement';
+    }
+    go.onclick = train;
+
+    let TESTS = [];
+    (async () => {
+      const imgs = await Promise.all(a.jeu_de_test.map(t => loadImg(t.image)));
+      TESTS = a.jeu_de_test.map((t, i) => ({ src: t.image, cat: t.categorie, f: features(imgs[i]) }));
+      if (!drawn) {
+        const list = a.categories.flatMap(c => (c.images || []).map(src => ({ src, vrai: c.nom })));
+        for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; }
+        const loaded = await Promise.all(list.map(e => loadImg(e.src)));
+        list.forEach((e, i) => ex.push({ id: ++uid, src: e.src, vrai: e.vrai, cat: null, f: features(loaded[i]) }));
+      }
+      draw();
+    })();
+
+    if (drawn) {
+      const cv = q('canvas'), g = cv.getContext('2d');
+      const blank = () => { g.fillStyle = '#141416'; g.fillRect(0, 0, cv.width, cv.height); };
+      blank();
+      let down = false, inked = false;
+      const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
+      g.lineCap = g.lineJoin = 'round'; g.lineWidth = 26; g.strokeStyle = '#F5F5F7';
+      cv.onpointerdown = e => { down = true; inked = true; cv.setPointerCapture(e.pointerId); const [x, y] = pos(e); g.beginPath(); g.moveTo(x, y); g.lineTo(x + .1, y); g.stroke(); };
+      cv.onpointermove = e => { if (!down) return; const [x, y] = pos(e); g.lineTo(x, y); g.stroke(); };
+      cv.onpointerup = cv.onpointercancel = () => {
+        if (!down) return; down = false;
+        if (trained) { const p = predict(trained, features(cv)); q('.live').textContent = nb(`Ton IA pense : « ${p.cat} », sûre à ${Math.round(p.conf * 100)} %.`); }
+      };
+      q('.clear').onclick = () => { blank(); inked = false; q('.live').textContent = ''; };
+      s.querySelectorAll('.add').forEach(bt => bt.onclick = () => {
+        if (!inked) { say('Dessine d’abord une flèche dans le cadre, puis range-la.', false); return; }
+        const small = document.createElement('canvas'); small.width = small.height = 112;
+        small.getContext('2d').drawImage(cv, 0, 0, 112, 112);
+        ex.push({ id: ++uid, src: small.toDataURL('image/png'), cat: bt.dataset.cat, f: features(cv) });
+        blank(); inked = false; q('.live').textContent = ''; fb.textContent = '';
+        changed();
+      });
+    }
+
+    const diag = () => {
+      const n = counts();
+      if (solved) return `Bravo, ton IA reconnaît ${score} panneaux sur 10 : c’est réussi ! Tu peux continuer, ou essayer de faire encore mieux.`;
+      if (n.some(k => k < min)) return `Il faut au moins ${min} exemples dans chaque catégorie : tu en as ${n[0]} dans « ${cats[0]} » et ${n[1]} dans « ${cats[1]} ».`;
+      if (score === null) return 'Tu as assez d’exemples : lance l’entraînement pour voir ce que ton IA a appris.';
+      return `Ton IA reconnaît ${score} panneaux sur 10, il en faut ${need}.`;
+    };
+    q('.tutor-slot').appendChild(makeTutor(a, diag, { chip: 'Comment mon IA apprend ?', re: /(\bia\b|intelligence|apprend|machine|entrain|exemple|c'est quoi)/,
+      text: 'Ton IA compare chaque nouveau panneau avec les exemples que tu lui as donnés, et choisit la catégorie des exemples qui lui ressemblent le plus. C’est pour ça que des exemples variés et bien rangés comptent autant !' }));
     return s;
   }
 
@@ -364,10 +874,13 @@
   S.activites.forEach(a => {
     if (a.type === 'video') screens.push(videoScreen(a));
     else if (a.type === 'robot-blocs') screens.push(robotScreen(a));
+    else if (a.type === 'atelier-ia') screens.push(atelierScreen(a));
     else if (a.type === 'quiz') screens.push(quizScreen(a));
   });
   screens.push(endScreen());
+  stepsEl.style.gridTemplateColumns = `repeat(${screens.length}, 1fr)`;
   screens.forEach(sc => { main.appendChild(sc); stepsEl.appendChild(document.createElement('li')); });
+  nbAll(main);
   go(0);
 })();
 </script>

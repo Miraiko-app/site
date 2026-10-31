@@ -5,7 +5,9 @@ Le site tient en quelques fichiers statiques, hébergés gratuitement par GitHub
 ## Contenu
 
 - `index.html` : la page d’accueil, tirée de la maquette.
-- `demo.html` : la séance de démonstration jouable.
+- `demo.html` : deux séances de démonstration jouables, « Les boucles » (`?seance=createurs-j02`) et « Apprendre à une machine » (`?seance=createurs-j05`), avec le tuteur (simulé par des règles simples) et un atelier IA entraîné dans le navigateur.
+- `videos/` : la vidéo d’introduction du jour 2, ses sous-titres et son image d’aperçu.
+- `images/createurs-j05/` : les 30 panneaux « gauche » et « droite » de l’atelier IA (20 exemples, 10 tests).
 - `mentions-legales.html` et `confidentialite.html` : complétées (éditeur Chema El Gharbi, mise à jour du 30 octobre 2026).
 - `merci.html` : page affichée après l’envoi du formulaire (« vérifiez votre boîte e-mail »).
 - `inscription-confirmee.html` : page affichée après le clic sur le lien de confirmation de Brevo.
