@@ -230,14 +230,25 @@ input::placeholder{color:#8A8A93}
 <input id="email" name="EMAIL" type="email" required placeholder="vous@exemple.fr" autocomplete="email" style="min-height: 52px; padding: 0 16px; border-radius: 14px; border: 1px solid #4A4A52; background: #0B0B0C; color: #F5F5F7; font: inherit">
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
-<label for="niveau" style="font-weight: 600; font-size: 16px">Niveau qui vous intéresse</label>
-<select id="niveau" name="NIVEAU" style="min-height: 52px; padding: 0 16px; border-radius: 14px; border: 1px solid #4A4A52; background: #0B0B0C; color: #F5F5F7; font: inherit">
+<label for="nb-enfants" style="font-weight: 600; font-size: 16px">Nombre d’enfants intéressés</label>
+<select id="nb-enfants" style="min-height: 52px; padding: 0 16px; border-radius: 14px; border: 1px solid #4A4A52; background: #0B0B0C; color: #F5F5F7; font: inherit">
+<option value="1">1 enfant</option>
+<option value="2">2 enfants</option>
+<option value="3">3 enfants</option>
+<option value="4">4 enfants</option>
+</select>
+</div>
+<div id="niveaux-enfants" style="display: flex; flex-direction: column; gap: 16px">
+<div class="niveau-enfant" style="display: flex; flex-direction: column; gap: 6px">
+<label for="niveau-1" style="font-weight: 600; font-size: 16px">Niveau de votre enfant</label>
+<select id="niveau-1" name="NIVEAU" style="min-height: 52px; padding: 0 16px; border-radius: 14px; border: 1px solid #4A4A52; background: #0B0B0C; color: #F5F5F7; font: inherit">
 <option>Explorateurs, 6–8 ans</option>
 <option>Créateurs, 9–11 ans</option>
 <option>Makers, 12–14 ans</option>
 <option>Builders, 15–17 ans</option>
 <option>Je ne sais pas encore</option>
 </select>
+</div>
 </div>
 <div style="display: flex; align-items: flex-start; gap: 12px">
 <input id="accord" name="OPT_IN" value="1" type="checkbox" required style="width: 24px; height: 24px; margin: 3px 0 0; flex: none; accent-color: #F5F5F7">
@@ -290,5 +301,50 @@ input::placeholder{color:#8A8A93}
 </footer>
 
 </div>
+<script>
+// Liste d’attente : un niveau par enfant. Brevo reçoit un seul champ NIVEAU,
+// par exemple « Créateurs, 9–11 ans ; Makers, 12–14 ans ». Sans JavaScript,
+// le formulaire envoie simplement le niveau du premier enfant.
+(function () {
+  var form = document.querySelector('#liste form');
+  if (!form) return;
+  var nb = document.getElementById('nb-enfants');
+  var zone = document.getElementById('niveaux-enfants');
+  var modele = zone.querySelector('.niveau-enfant');
+  var premier = modele.querySelector('select');
+  premier.removeAttribute('name');
+  var champ = document.createElement('input');
+  champ.type = 'hidden';
+  champ.name = 'NIVEAU';
+  form.appendChild(champ);
+
+  function afficher() {
+    var n = parseInt(nb.value, 10);
+    var blocs = zone.querySelectorAll('.niveau-enfant');
+    for (var k = blocs.length; k < n; k++) {
+      var copie = modele.cloneNode(true);
+      var sel = copie.querySelector('select');
+      sel.id = 'niveau-' + (k + 1);
+      sel.selectedIndex = 0;
+      copie.querySelector('label').htmlFor = sel.id;
+      zone.appendChild(copie);
+    }
+    blocs = zone.querySelectorAll('.niveau-enfant');
+    for (var m = blocs.length - 1; m >= n; m--) zone.removeChild(blocs[m]);
+    blocs = zone.querySelectorAll('.niveau-enfant');
+    for (var q = 0; q < blocs.length; q++) {
+      blocs[q].querySelector('label').textContent =
+        n === 1 ? 'Niveau de votre enfant' : 'Niveau de l’enfant ' + (q + 1);
+    }
+  }
+  nb.addEventListener('change', afficher);
+  form.addEventListener('submit', function () {
+    var valeurs = [];
+    zone.querySelectorAll('select').forEach(function (s) { valeurs.push(s.value); });
+    champ.value = valeurs.join(' ; ');
+  });
+  afficher();
+})();
+</script>
 </body>
 </html>
